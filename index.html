@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>Student Expense Tracker</h1>
+    <p>Know where your allowance goes.</p>
+  </header>
+
+  <main class="layout">
+
+    <!-- LEFT: add / edit form -->
+    <section class="panel form-panel" aria-labelledby="form-title">
+      <h2 id="form-title">Add expense</h2>
+
+      <form id="expense-form" novalidate>
+        <div class="field">
+          <label for="title">What did you spend on?</label>
+          <input id="title" type="text" maxlength="60" placeholder="e.g. Lunch at canteen" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="amount">Amount (₱)</label>
+            <input id="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0.00" required>
+          </div>
+          <div class="field">
+            <label for="date">Date</label>
+            <input id="date" type="date" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category"></select>
+        </div>
+
+        <div class="field">
+          <label for="note">Note (optional)</label>
+          <input id="note" type="text" maxlength="100" placeholder="e.g. with classmates">
+        </div>
+
+        <p id="form-error" class="error" role="alert"></p>
+
+        <div class="form-actions">
+          <button type="submit" id="submit-btn" class="btn btn-primary">Add expense</button>
+          <button type="button" id="cancel-btn" class="btn btn-ghost" hidden>Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- RIGHT: budget, summary, list -->
+    <div class="main-col">
+
+      <section class="panel budget-panel" aria-labelledby="budget-title">
+        <div class="budget-head">
+          <h2 id="budget-title">Monthly budget</h2>
+          <form id="budget-form" class="budget-form">
+            <label class="sr-only" for="budget-input">Monthly budget in pesos</label>
+            <input id="budget-input" type="number" min="0" step="1" inputmode="numeric" placeholder="e.g. 3000">
+            <button type="submit" class="btn btn-small">Set budget</button>
+          </form>
+        </div>
+        <p id="budget-figure" class="budget-figure"></p>
+        <div class="meter" role="progressbar" aria-label="Budget used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter">
+          <div class="meter-fill" id="meter-fill"></div>
+        </div>
+        <p id="budget-message" class="budget-message"></p>
+      </section>
+
+      <section class="stats" aria-label="Summary">
+        <div class="stat">
+          <span class="stat-label">Total spent</span>
+          <span class="stat-value" id="stat-total">₱0.00</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Expenses</span>
+          <span class="stat-value" id="stat-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Biggest category</span>
+          <span class="stat-value" id="stat-top">None yet</span>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="breakdown-title">
+        <h2 id="breakdown-title">Spending by category</h2>
+        <ul id="breakdown" class="breakdown"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="list-title">
+        <div class="list-head">
+          <h2 id="list-title">Expenses</h2>
+          <div class="list-tools">
+            <button type="button" id="export-btn" class="btn btn-small">Export CSV</button>
+            <button type="button" id="clear-btn" class="btn btn-small btn-danger-outline">Clear all</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="field">
+            <label for="filter-month">Month</label>
+            <input id="filter-month" type="month">
+          </div>
+          <div class="field">
+            <label for="filter-category">Category</label>
+            <select id="filter-category"></select>
+          </div>
+          <div class="field grow">
+            <label for="filter-search">Search</label>
+            <input id="filter-search" type="search" placeholder="Search title or note">
+          </div>
+          <button type="button" id="all-time-btn" class="btn btn-small">All months</button>
+        </div>
+
+        <ul id="expense-list" class="expense-list"></ul>
+        <p id="empty-state" class="empty" hidden>No expenses match these filters. Add one using the form.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Order matters: data first, then UI helpers, then the app that wires everything -->
+  <script src="data.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
